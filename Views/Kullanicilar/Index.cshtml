@@ -1,0 +1,48 @@
+﻿@model IEnumerable<webOdev3.Models.Kullanicilar>
+
+
+<a asp-action="KullaniciEkle">Yeni Kullanici Ekle</a>
+<div class="alert-danger"> @TempData["msj"]</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Soyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sifre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Soyad)
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sifre)
+                </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Rol)
+                 </td>
+            </tr>
+        }
+    </tbody>
+</table>
