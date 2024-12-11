@@ -12,51 +12,49 @@
                     <h3>Kullanıcı Kayıt Ol</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-controller="Kullanicilar" asp-action="Register" method="post" id="registerForm">
+                    <form asp-controller="Kullanicilar" asp-action="KullaniciKaydet" method="post">
                         <!-- Kullanıcı Adı -->
                         <div class="form-group mb-3">
-                            <label for="FirstName">Ad</label>
-                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="Adınızı girin" required />
+                            <label asp-for="Ad" class="form-label"></label>
+                            <input asp-for="Ad" class="form-control" placeholder="Adınızı girin" required />
+                            <span asp-validation-for="Ad" class="text-danger"></span>
                         </div>
 
                         <!-- Soyadı -->
                         <div class="form-group mb-3">
-                            <label for="LastName">Soyad</label>
-                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Soyadınızı girin" required />
+                            <label asp-for="Soyad" class="form-label"></label>
+                            <input asp-for="Soyad" class="form-control" placeholder="Soyadınızı girin" required />
+                            <span asp-validation-for="Soyad" class="text-danger"></span>
                         </div>
 
                         <!-- Email -->
                         <div class="form-group mb-3">
-                            <label for="Email">Email Adresi</label>
-                            <input type="email" class="form-control" id="Email" name="Email" placeholder="Email adresinizi girin" required />
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" placeholder="Email adresinizi girin" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
                         <!-- Şifre -->
                         <div class="form-group mb-3">
-                            <label for="Password">Şifre</label>
-                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Şifrenizi girin" required />
+                            <label asp-for="Sifre" class="form-label"></label>
+                            <input asp-for="Sifre" type="password" class="form-control" placeholder="Şifrenizi girin" required />
+                            <span asp-validation-for="Sifre" class="text-danger"></span>
                         </div>
 
-                        <!-- Şifre Tekrarı -->
+                        <!-- Rol -->
                         <div class="form-group mb-3">
-                            <label for="ConfirmPassword">Şifre Tekrarı</label>
-                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Şifrenizi tekrar girin" required />
-                            <div id="passwordError" class="text-danger" style="display:none;">Şifreler uyuşmuyor!</div>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="Role">Rol</label>
-                            <select class="form-control" id="Role" name="Role" required>
+                            <label asp-for="Rol" class="form-label"></label>
+                            <select asp-for="Rol" class="form-control" required>
                                 <option value="" disabled selected>Rolünüzü seçin</option>
                                 <option value="Admin">Admin</option>
-                                <option value="Editor">Kullanıcı</option>
+                                <option value="Kullanıcı">Kullanıcı</option>
                             </select>
+                            <span asp-validation-for="Rol" class="text-danger"></span>
                         </div>
 
                         <!-- Kayıt Ol Butonu -->
                         <div class="d-grid gap-2">
-                            <!--<button type="submit" class="btn btn-primary">Kayıt Ol</button>-->
-                            <a asp-controller="Kullanicilar" asp-action="Index" class="btn btn-primary">Kayıt Ol</a>
+                            <button type="submit" class="btn btn-primary">Kayıt Ol</button>
                         </div>
                     </form>
                 </div>
@@ -70,19 +68,3 @@
         </div>
     </div>
 </div>
-
-<!-- JavaScript ile Şifre Doğrulama -->
-<script>
-    document.getElementById("registerForm").addEventListener("submit", function (event) {
-        var password = document.getElementById("Password").value;
-        var confirmPassword = document.getElementById("ConfirmPassword").value;
-
-        if (password !== confirmPassword) {
-            event.preventDefault(); // Formun gönderilmesini engelle
-            document.getElementById("passwordError").style.display = "block"; // Hata mesajını göster
-        } else {
-            document.getElementById("passwordError").style.display = "none"; // Hata mesajını gizle
-        }
-    });
-</script>
-

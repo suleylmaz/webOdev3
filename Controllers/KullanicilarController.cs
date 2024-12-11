@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Runtime.CompilerServices;
 using webOdev3.Models;
 
@@ -6,29 +7,26 @@ namespace webOdev3.Controllers
 {
     public class KullanicilarController : Controller
     {   
-        KuaforContext u=new KuaforContext();
+       KuaforContext c=new KuaforContext();
 
-        public IActionResult Index()    
+        public IActionResult Index()
         {
-            var kullanicilar=u.Kullanicilars.ToList();
-            return View(kullanicilar);
+            var degerler = c.Kullanicilars.ToList();
+            return View(degerler);
         }
+       
         public IActionResult KullaniciEkle()
         {
             return View();
         }
+     
         public IActionResult KullaniciKaydet(Kullanicilar k)
-        {
-            if (ModelState.IsValid)
-            {
-                u.Kullanicilars.Add(k);
-                u.SaveChanges();
-                TempData["msj"] = k.Ad+ "Kullanıcı Kaydedildi";
-                return RedirectToAction("Index");
-            }
-            TempData["msj"] = "Lütfen Dataları düzgün giriniz";
-            return RedirectToAction("KullaniciEkle");
+        { 
+            c.Kullanicilars.Add(k);
+            c.SaveChanges();
+            return RedirectToAction("Index");
 
         }
     }
 }
+

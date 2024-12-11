@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<webOdev3.Models.Kullanicilar>
 
 
-<a asp-action="KullaniciEkle">Yeni Kullanici Ekle</a>
+<a asp-action="KullaniciEkle">Yeni Kullanıcı Ekle</a>
 <div class="alert-danger"> @TempData["msj"]</div>
 <table class="table">
     <thead>
@@ -21,6 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -34,14 +35,14 @@
                     @Html.DisplayFor(modelItem => item.Soyad)
                 </td>
                 <td>
-                   @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Sifre)
                 </td>
-                    <td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Rol)
-                 </td>
+                </td>
             </tr>
         }
     </tbody>
