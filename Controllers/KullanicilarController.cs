@@ -11,8 +11,10 @@ namespace webOdev3.Controllers
 
         public IActionResult Index()
         {
-            var degerler = c.Kullanicilars.ToList();
-            return View(degerler);
+            //var degerler = c.Kullanicilars.ToList();
+            //return View("Index");
+            TempData["Message"] = "Yeni kullanıcı başarıyla eklendi!";
+            return RedirectToAction("Index", "Home");
         }
        
         public IActionResult KullaniciEkle()

@@ -1,14 +1,10 @@
-﻿@model webOdev3.Models.Kullanicilar
+﻿
+@model webOdev3.Models.Kullanicilar
 
 @{
     ViewData["Title"] = "Login";
 }
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
-}
+
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -35,7 +31,7 @@
 
                         <!-- Şifremi Unuttum -->
                         <div class="text-end mb-3">
-                            <a asp-controller="Home" asp-action="SifremiUnuttum" class="text-primary">Şifremi Unuttum</a>
+                            <a asp-controller="Account" asp-action="ForgotPassword" class="text-primary">Şifremi Unuttum</a>
                         </div>
 
                         <!-- Giriş Yap Butonu -->
@@ -54,3 +50,4 @@
         </div>
     </div>
 </div>
+
