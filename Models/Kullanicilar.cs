@@ -14,8 +14,7 @@ namespace webOdev3.Models
         public string Soyad { get; set; }
 
         [Display(Name = "E-mail")]
-        [Required(ErrorMessage = "Email adresi gereklidir.")]
-        [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz.")]
+        
         public string Email { get; set; }
 
         [Display(Name = "Şifre")]
@@ -25,6 +24,7 @@ namespace webOdev3.Models
 
         [Display(Name = "Rol")]
         public string Rol { get; set; }  // Admin veya User
+
 
         public List<Randevular> Randevulars { get; set; }
     }

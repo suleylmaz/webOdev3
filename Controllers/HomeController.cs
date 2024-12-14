@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -28,28 +30,55 @@ namespace webOdev3.Controllers
             return View();
         }
 
+        public IActionResult RandevuAl()
+        {
+            // Kullanıcı giriş yapmamışsa, giriş yap sayfasına yönlendir
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Email")))
+            {
+                return RedirectToAction("GirisYap", "Home");
+            }
+
+            // Kullanıcı giriş yaptıysa, RandevuController'a yönlendir
+            return RedirectToAction("Index", "Randevu");
+        }
+    
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GirisYap()
         {
             return View();
         }
-        public async Task<IActionResult> GirisYap(Kullanicilar g)
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult GirisYap(Kullanicilar g)
         {
+            // Kullanıcıyı veritabanında sorgula
             var bilgiler = c.Kullanicilars.FirstOrDefault(x => x.Email == g.Email && x.Sifre == g.Sifre);
+
             if (bilgiler != null)
             {
-                var claims = new List<Claim>
-               { new Claim(ClaimTypes.Email,g.Email)};
-                var useridentity = new ClaimsIdentity(claims, "Home");
-                ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
-                await HttpContext.SignInAsync(principal);
-                return RedirectToAction("Index", "Kullanicilar");
-            }
-            return View();
+                // Kullanıcı başarıyla giriş yaptıysa, kullanıcının email bilgisini Session'a kaydet
+                HttpContext.Session.SetString("Email", g.Email);
 
+                // Giriş başarılı ise, ana sayfaya yönlendir
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Giriş başarısızsa, giriş sayfasını yeniden göster
+            TempData["ErrorMessage"] = "Geçersiz email veya şifre."; // Hata mesajı göstermek için TempData
+            return View();
         }
 
+
         [HttpGet]
+        public IActionResult SifremiUnuttum()
+        {
+            // Boş bir model ile sayfayı döndür
+            return View(new SifremiUnuttumViewModel());
+        }
+
+        [HttpPost]
         public IActionResult SifremiUnuttum(SifremiUnuttumViewModel model)
         {
             if (ModelState.IsValid)
