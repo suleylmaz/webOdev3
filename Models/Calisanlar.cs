@@ -9,7 +9,7 @@ namespace webOdev3.Models
         public string Ad { get; set; }
         public string Soyad { get; set; }
         public int SalonID { get; set; }
-        public string Telefon { get; set; }
+        
 
         public virtual Salon Salon { get; set; }
 
