@@ -53,6 +53,14 @@ namespace webOdev3.Controllers
         [HttpPost]
         public IActionResult GirisYap(Kullanicilar g)
         {
+            // Admin Girişi Kontrolü
+            if (g.Email == "admin@sakarya.edu.tr" && g.Sifre == "sau")
+            {
+                // Admin olarak giriş yapıldı
+                HttpContext.Session.SetString("Email", g.Email);
+                return RedirectToAction("Index", "Admin"); // Admin sayfasına yönlendirme
+            }
+
             // Kullanıcıyı veritabanında sorgula
             var bilgiler = c.Kullanicilars.FirstOrDefault(x => x.Email == g.Email && x.Sifre == g.Sifre);
 
