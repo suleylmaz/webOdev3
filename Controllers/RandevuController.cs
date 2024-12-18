@@ -43,18 +43,36 @@ namespace webOdev3.Controllers
         }
 
         [HttpGet]
-         public IActionResult RandevuEkle()
-         {  
+        public IActionResult RandevuEkle()
+        {
             return View();
-         }
+        }
 
+        
         [HttpPost]
         public IActionResult RandevuEkle(string tarih, string saat, string calisanAdi, string hizmetAd, float hizmetUcret)
         {
-            var randevuTarihi = DateTime.Parse($"{tarih} {saat}:00");
-            var saatDilimi = TimeSpan.Parse(saat + ":00");
+            if (string.IsNullOrWhiteSpace(saat))
+            {
+                ViewBag.Message = "Saat seçimi boş olamaz.";
+                return View();
+            }
 
-            var kullaniciId = 10; // Kullanıcı ID'sini burada alabilirsiniz.
+            if (!DateTime.TryParse($"{tarih} {saat}:00", out var randevuTarihi))
+            {
+                ViewBag.Message = "Geçersiz tarih veya saat formatı.";
+                return View();
+            }
+
+            if (!TimeSpan.TryParse(saat, out var saatDilimi))
+            {
+                ViewBag.Message = "Geçersiz saat formatı.";
+                return View();
+            }
+
+            var kullaniciIdString = HttpContext.Session.GetString("KullaniciId");
+            int kullaniciId = int.Parse(kullaniciIdString);
+
 
             // Çalışan ve hizmet bilgilerini almak
             var calisan = _context.Calisanlars.FirstOrDefault(c => c.Ad + " " + c.Soyad == calisanAdi);
@@ -80,10 +98,25 @@ namespace webOdev3.Controllers
             _context.Randevulars.Add(yeniRandevu);
             _context.SaveChanges();
 
-            ViewBag.Message = $"Randevu başarıyla oluşturuldu! Tarih: {randevuTarihi.ToString("dd MMMM yyyy HH:mm")}, Hizmet: {hizmetAd}, Ücret: {hizmetUcret} ₺";
+            ViewBag.Message = $"Randevu başarıyla oluşturuldu! Tarih: {randevuTarihi:dd MMMM yyyy HH:mm}, Hizmet: {hizmetAd}, Ücret: {hizmetUcret} ₺";
 
-            return View(); // Kullanıcıya randevuyu başarıyla oluşturulduğunu bildiriyoruz
+            return View();
         }
+        [HttpPost]
+        public IActionResult Onayla(int id)
+        {
+            var randevu = _context.Randevulars.Find(id);
+            if (randevu == null)
+            {
+                return NotFound();
+            }
+
+            randevu.OnayDurumu = true; // Onay Durumunu Güncelle
+            _context.SaveChanges();
+
+            return RedirectToAction("Index"); // Randevu listesine geri dön
+        }
+
 
 
     }

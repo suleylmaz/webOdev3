@@ -66,18 +66,18 @@ namespace webOdev3.Controllers
 
             if (bilgiler != null)
             {
-                // Kullanıcı başarıyla giriş yaptıysa, kullanıcının email bilgisini Session'a kaydet
-                HttpContext.Session.SetString("Email", g.Email);
+                // Kullanıcının Email ve KullaniciId bilgilerini Session'a kaydediyoruz
+                HttpContext.Session.SetString("Email", bilgiler.Email);
+                HttpContext.Session.SetString("KullaniciId", bilgiler.KullanicilarID.ToString());
 
                 // Giriş başarılı ise, ana sayfaya yönlendir
                 return RedirectToAction("Index", "Home");
             }
 
-            // Giriş başarısızsa, giriş sayfasını yeniden göster
-            TempData["ErrorMessage"] = "Geçersiz email veya şifre."; // Hata mesajı göstermek için TempData
+            // Giriş başarısızsa, hata mesajı göster
+            TempData["ErrorMessage"] = "Geçersiz email veya şifre.";
             return View();
         }
-
 
         [HttpGet]
         public IActionResult SifremiUnuttum()
