@@ -1,12 +1,27 @@
 ﻿@model List<webOdev3.Models.CalisanHizmetViewModel>
 
+
+<img src="images/calisan.png" alt="Description of image">
+<style>
+    img {
+        display: block;
+        width: 100%; /* Tam ekran genişliği */
+        max-width: 1200px; /* İçeriğin maksimum genişliği */
+        margin: 0 auto; /* Ortalamak için */
+        padding-top: 75px;
+        padding-bottom: 50px;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+</style>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-info">
         @TempData["Message"]
     </div>
 }
-
 <h1>Randevu Oluştur</h1>
 
 <!-- Çalışan Seçimi -->
