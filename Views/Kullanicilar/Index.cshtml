@@ -3,6 +3,10 @@
 
 <a asp-action="KullaniciEkle">Yeni Kullanıcı Ekle</a>
 <div class="alert-danger"> @TempData["msj"]</div>
+<div class="alert alert-danger" role="alert">
+    @TempData["msj"]
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -18,8 +22,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Sifre)
             </th>
-           
-            
+
+
         </tr>
     </thead>
     <tbody>
@@ -38,7 +42,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Sifre)
                 </td>
-               
+
             </tr>
         }
     </tbody>

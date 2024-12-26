@@ -62,9 +62,10 @@ namespace webOdev3.Controllers
             }
 
             // Kullanıcıyı veritabanında sorgula
-            var bilgiler = c.Kullanicilars.FirstOrDefault(x => x.Email == g.Email && x.Sifre == g.Sifre);
+            var bilgiler = c.Kullanicilars
+                .FirstOrDefault(x => x.Email == g.Email);
 
-            if (bilgiler != null)
+            if (bilgiler != null && string.Equals(bilgiler.Sifre, g.Sifre, StringComparison.Ordinal))
             {
                 // Kullanıcının Email ve KullaniciId bilgilerini Session'a kaydediyoruz
                 HttpContext.Session.SetString("Email", bilgiler.Email);
@@ -78,6 +79,7 @@ namespace webOdev3.Controllers
             TempData["ErrorMessage"] = "Geçersiz email veya şifre.";
             return View();
         }
+
 
         [HttpGet]
         public IActionResult SifremiUnuttum()
