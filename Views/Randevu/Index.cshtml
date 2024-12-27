@@ -5,9 +5,9 @@
 <style>
     img {
         display: block;
-        width: 100%; /* Tam ekran genişliği */
-        max-width: 1200px; /* İçeriğin maksimum genişliği */
-        margin: 0 auto; /* Ortalamak için */
+        width: 100%; 
+        max-width: 1200px; 
+        margin: 0 auto; 
         padding-top: 75px;
         padding-bottom: 50px;
     }
@@ -24,7 +24,7 @@
 }
 <h1>Randevu Oluştur</h1>
 
-<!-- Çalışan Seçimi -->
+
 <form asp-controller="Randevu" asp-action="RandevuEkle" method="post">
     <div class="form-group">
         <label for="calisanId">Çalışan Seçin:</label>
@@ -37,7 +37,7 @@
         </select>
     </div>
 
-    <!-- Hizmet Seçimi (Dinamik olarak güncellenecek) -->
+  
     <div class="form-group">
         <label for="hizmetId">Hizmet Seçin:</label>
         <select class="form-control" id="hizmetId" name="hizmetAd" required>
@@ -45,15 +45,14 @@
         </select>
     </div>
 
-    <!-- Ücret Görüntüleme -->
+   
     <div class="form-group">
         <label for="ucret">Ücret:</label>
         <input type="text" class="form-control" id="ucret" readonly />
-        <!-- Gizli alan -->
         <input type="hidden" id="hizmetUcretHidden" name="hizmetUcret" />
     </div>
 
-    <!-- Tarih ve Saat Seçimi -->
+    
     <div class="form-group">
         <label for="tarih">Tarih Seçin:</label>
         <input type="date" class="form-control" id="tarih" name="tarih" required />
@@ -74,18 +73,15 @@
 </form>
 
 <script>
-    // Çalışan seçildiğinde hizmetler dinamik olarak güncellenecek
+    
     document.getElementById('calisanId').addEventListener('change', function () {
-        var selectedEmployee = this.value; // Seçilen çalışan
-
-        // Hizmet seçeneklerini sıfırlıyoruz
+        var selectedEmployee = this.value; 
+       
         var hizmetSelect = document.getElementById('hizmetId');
         hizmetSelect.innerHTML = '<option value="">Hizmet Seçin</option>';
 
-        // Hizmetleri ilgili çalışan için ekliyoruz
-        var calisanHizmetler = @Html.Raw(ViewBag.CalisanHizmetler); // Modeli JavaScript'e aktar
+        var calisanHizmetler = @Html.Raw(ViewBag.CalisanHizmetler); 
 
-        // Seçilen çalışanın sunduğu hizmetleri filtreliyoruz
         var selectedCalisan = calisanHizmetler.find(function (calisan) {
             return (calisan.CalisanAdi + " " + calisan.CalisanSoyadi) === selectedEmployee;
         });
@@ -100,15 +96,13 @@
         }
     });
 
-    // Hizmet değiştiğinde ücret güncelleniyor
+    
     document.getElementById('hizmetId').addEventListener('change', function () {
         var selectedHizmet = this.options[this.selectedIndex];
         var ucret = selectedHizmet ? selectedHizmet.text.split('-')[2].trim() : '';
 
-        // Ücret alanını güncelle
         document.getElementById('ucret').value = ucret;
 
-        // Gizli alanı güncelle
         document.getElementById('hizmetUcretHidden').value = ucret.replace('₺', '').trim();
     });
 </script>

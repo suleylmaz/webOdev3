@@ -42,40 +42,38 @@ namespace webOdev3.Controllers
             return RedirectToAction("Index", "Randevu");
         }
     
-
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GirisYap()
         {
             return View();
         }
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult GirisYap(Kullanicilar g)
         {
             // Admin Girişi Kontrolü
-            if (g.Email == "admin@sakarya.edu.tr" && g.Sifre == "sau")
+            if (g.Email == "b221210033@sakarya.edu.tr" && g.Sifre == "sau")
             {
                 // Admin olarak giriş yapıldı
                 HttpContext.Session.SetString("Email", g.Email);
-                return RedirectToAction("Index", "Admin"); // Admin sayfasına yönlendirme
+                return RedirectToAction("Index", "Admin"); 
             }
 
-            // Kullanıcıyı veritabanında sorgula
+            
             var bilgiler = c.Kullanicilars
                 .FirstOrDefault(x => x.Email == g.Email);
 
             if (bilgiler != null && string.Equals(bilgiler.Sifre, g.Sifre, StringComparison.Ordinal))
             {
-                // Kullanıcının Email ve KullaniciId bilgilerini Session'a kaydediyoruz
+                
                 HttpContext.Session.SetString("Email", bilgiler.Email);
                 HttpContext.Session.SetString("KullaniciId", bilgiler.KullanicilarID.ToString());
 
-                // Giriş başarılı ise, ana sayfaya yönlendir
                 return RedirectToAction("Index", "Home");
             }
 
-            // Giriş başarısızsa, hata mesajı göster
             TempData["ErrorMessage"] = "Geçersiz email veya şifre.";
             return View();
         }
@@ -84,7 +82,7 @@ namespace webOdev3.Controllers
         [HttpGet]
         public IActionResult SifremiUnuttum()
         {
-            // Boş bir model ile sayfayı döndür
+            
             return View(new SifremiUnuttumViewModel());
         }
 
@@ -93,7 +91,7 @@ namespace webOdev3.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Şifre sıfırlama işlemleri
+                
                 var user = c.Kullanicilars.FirstOrDefault(x => x.Email == model.Email);
                 if (user != null)
                 {
@@ -108,10 +106,18 @@ namespace webOdev3.Controllers
             return View(model);
         }
 
+        public IActionResult CikisYap()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
